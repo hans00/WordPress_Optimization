@@ -4,7 +4,11 @@ RUN docker-php-ext-install pdo pdo_mysql
 
 ENV PHPREDIS_VERSION 4.1.1
 
-RUN apk add --update php-redis@php
+RUN curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar zx \
+    && mkdir -p /usr/src/php/ext \
+    && mv phpredis-* /usr/src/php/ext/redis
+
+RUN docker-php-ext-install redis
 
 EXPOSE 9000
 
