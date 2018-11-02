@@ -1,6 +1,9 @@
 FROM wordpress:php7.2-fpm
 
-RUN docker-php-ext-install redis pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql \
+	&& pecl install -o -f redis \
+	&& rm -rf /tmp/pear \
+	&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini
 
 EXPOSE 9000
 
