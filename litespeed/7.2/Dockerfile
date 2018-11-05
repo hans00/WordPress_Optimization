@@ -50,7 +50,7 @@ RUN set -ex; \
 	rm wordpress.tar.gz; \
 	chown -R lsadm:lsadm /usr/src/wordpress
 
-COPY docker-entrypoint.sh /entrypoint.sh
+COPY docker-entrypoint.sh /
 
 WORKDIR /var/www/html
 
@@ -59,6 +59,6 @@ VOLUME /var/lib/litespeed/conf
 
 EXPOSE 8088 7080
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/sbin/runit-wrapper"]
