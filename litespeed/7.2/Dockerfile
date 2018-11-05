@@ -5,12 +5,6 @@ RUN apk add --no-cache unzip bash sed; \
 	# install the PHP extensions we need
 	apk add --no-cache php7.2-sodium php7.2-intl php7.2-gd php7.2-mysqli php7.2-redis php7.2-pdo php7.2-pdo_mysql
 
-ENV WORDPRESS_VERSION 4.9.8
-ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
-
-ENV LSCACHE_VERSION 2.7
-ENV LSCACHE_SHA1 9e8cd2bc229ce17b3d2ae486333fc4e2e29bc545
-
 # remove example content and link /var/www/html
 RUN rm -rf /var/lib/litespeed/Example/html/; \
 	mkdir -p /var/www/html; \
@@ -26,7 +20,9 @@ RUN sed -i 's/indexFiles *index.html/indexFiles    index.php/' /var/lib/litespee
 # fix if you are behind proxy
 	sed -i '/rewrite *{/!b;n;n;n;a\  RewriteCond %{HTTP:X-Forwarded-Proto} https' /var/lib/litespeed/conf/vhosts/Example/vhconf.conf; \
 	sed -i '/rewrite *{/!b;n;n;n;n;a\  RewriteRule (.*) - [E=HTTPS:on]' /var/lib/litespeed/conf/vhosts/Example/vhconf.conf; \
-	mv /var/lib/litespeed/conf /var/lib/litespeed/conf.template
+	mkdir /var/lib/litespeed/conf.template; \
+	cp -r /var/lib/litespeed/conf/* /var/lib/litespeed/conf.template/; \
+	chown -R lsadm:lsadm /var/lib/litespeed/conf.template
 
 # remove link and link stdout to Example logs
 RUN rm /var/lib/litespeed/logs/access.log; rm /var/lib/litespeed/logs/error.log; \
@@ -36,6 +32,13 @@ RUN rm /var/lib/litespeed/logs/access.log; rm /var/lib/litespeed/logs/error.log;
 	chown lsadm:lsadm /var/lib/litespeed/logs/error.log; \
 	ln -sf /dev/stdout /var/lib/litespeed/Example/logs/access.log; \
 	ln -sf /dev/stderr /var/lib/litespeed/Example/logs/error.log
+
+# WP & LSCache version and checksum
+ENV WORDPRESS_VERSION 4.9.8
+ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
+
+ENV LSCACHE_VERSION 2.7
+ENV LSCACHE_SHA1 9e8cd2bc229ce17b3d2ae486333fc4e2e29bc545
 
 # download wordpress and LSCache plugin
 RUN set -ex; \
@@ -55,7 +58,7 @@ COPY docker-entrypoint.sh /
 WORKDIR /var/www/html
 
 VOLUME /var/www/html
-VOLUME /var/lib/litespeed/conf
+VOLUME /etc/litespeed
 
 EXPOSE 8088 7080
 

@@ -24,11 +24,8 @@ file_env() {
 }
 
 # new conf
-if [ ! -d /var/lib/litespeed/conf ]; then
-	mkdir /var/lib/litespeed/conf
-fi
-if [ ! -f /var/lib/litespeed/conf/httpd_config.conf ]; then
-	cp -r /var/lib/litespeed/conf.template/* /var/lib/litespeed/conf
+if [ ! -f /etc/litespeed/httpd_config.conf ]; then
+	cp -r /var/lib/litespeed/conf.template/* /etc/litespeed
 fi
 
 if [[ "$1" == /sbin/runit-wrapper* ]] || [ "$1" == php-fpm ]; then

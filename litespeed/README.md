@@ -23,7 +23,7 @@ services:
     image: hans00/wordpress_optimization:litespeed
     volumes:
       - /var/www/html
-      - /var/lib/litespeed/conf
+      - /etc/litespeed
     labels:
       kompose.volume.size: 5Gi
     ports:
