@@ -22,6 +22,7 @@ RUN yum install epel-release \
 	&& /usr/local/lsws/bin/lswsctrl stop \
 # setup lsphp
 	&& ln -s /usr/local/lsws/lsphp72/lib64 /usr/local/lsws/lsphp72/lib \
+	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/bin/lsphp \
 # setup the config
 	&& mv /tmp/lsws_conf/httpd_config.conf /usr/local/lsws/conf/ \
 	&& mv /tmp/lsws_conf/wordpress /usr/local/lsws/conf/vhosts/ \

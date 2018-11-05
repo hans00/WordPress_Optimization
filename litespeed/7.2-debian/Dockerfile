@@ -19,6 +19,7 @@ RUN apt-get update \
 # setup lsphp
 	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp7 \
 	&& ln -sf /usr/local/lsws/fcgi-bin/lsphp7 /usr/local/lsws/fcgi-bin/lsphp \
+	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/bin/lsphp \
 # install phpredis
 	&& (\
 		cd /tmp/; \
