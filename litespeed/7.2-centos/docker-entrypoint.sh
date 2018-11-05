@@ -23,21 +23,21 @@ file_env() {
 	unset "$fileVar"
 }
 
-# new conf
-if [ ! -f /etc/litespeed/httpd_config.conf ]; then
-	cp -r /var/lib/litespeed/conf.template/* /etc/litespeed
+if [ ! -d /usr/local/lsws ]; then
+	mkdir /usr/local/lsws
 fi
 
-if [[ "$1" == /sbin/runit-wrapper* ]] || [ "$1" == php-fpm ]; then
+# new conf
+if [ ! -f /usr/local/lsws/bin/lswsctrl ]; then
+	tar -xf /usr/src/lsws.tar --directory /usr/local/lsws
+fi
+
+if [[ "$1" == /service-wrep.sh* ]]; then
 	if [ "$(id -u)" = '0' ]; then
 		case "$1" in
-			/sbin/runit-wrapper*)
+			/service-wrep.sh*)
 				user="${LITESPEED_RUN_USER:-lsadm}"
 				group="${LITESPEED_RUN_GROUP:-lsadm}"
-				;;
-			*) # php-fpm
-				user='lsadm'
-				group='lsadm'
 				;;
 		esac
 	else
@@ -51,12 +51,7 @@ if [[ "$1" == /sbin/runit-wrapper* ]] || [ "$1" == php-fpm ]; then
 			echo >&2 "WARNING: $PWD is not empty - press Ctrl+C now if this is an error!"
 			( set -x; ls -A; sleep 10 )
 		fi
-		# tar --create \
-		# 	--file - \
-		# 	--directory /usr/src/wordpress \
-		# 	--owner "$user" --group "$group" \
-		# 	. | tar --extract --file -
-		cp -r /usr/src/wordpress/* ./
+		tar -xf /usr/src/wordpress.tar --directory .
 		echo >&2 "Complete! WordPress has been successfully copied to $PWD"
 		if [ ! -e .htaccess ]; then
 			# NOTE: The "Indexes" option is disabled in the php:apache base image
