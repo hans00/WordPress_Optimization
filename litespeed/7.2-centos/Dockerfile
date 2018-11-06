@@ -18,8 +18,6 @@ RUN yum install -y epel-release \
 		lsphp72-pecl-mcrypt lsphp72-pecl-redis lsphp72-pecl-msgpack \
 		lsphp72-pgsql lsphp72-process lsphp72-pspell lsphp72-recode lsphp72-snmp lsphp72-soap \
 		lsphp72-tidy lsphp72-xml lsphp72-xmlrpc lsphp72-zip \
-	# freeze
-	&& /usr/local/lsws/bin/lswsctrl stop \
 # setup lsphp
 	&& ln -s /usr/local/lsws/lsphp72/lib64 /usr/local/lsws/lsphp72/lib \
 	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/bin/lsphp \
