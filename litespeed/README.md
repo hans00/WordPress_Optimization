@@ -1,11 +1,22 @@
-# WordPress Optimization LiteSpeed
+# WordPress Optimization - LiteSpeed
 
-This repo is base on phpearth's LiteSpeed image, and add WordPress, Redis support.
+This is build for WordPress.
+Pre-installed OpenLiteSpeed, LSPHP and PHP-Redis.
+
+P.S. Alpine's OpenLiteSpeed is not the stable version, so I not use.
 
 ---
 
+## Versions
+
+- `litespeed`, `litespeed-debian`, `php7.2-litespeed`, `php7.2-litespeed-debian` \([Dockerfile](7.2-debian))
+- `litespeed-centos`, `php7.2-litespeed-centos` \([Dockerfile](7.2-centos))
+
 ## How To Use
 
+> The OpenLiteSpeed default HTTP port is 8088.
+> And OpenLiteSpeed have control panel port is 7080.
+> And I leave LSWS root configurable as volume because LSWS optimize settings will store in there.
 
 ### Kompose
 
@@ -22,7 +33,7 @@ services:
   app:
     image: hans00/wordpress_optimization:litespeed
     volumes:
-      - /var/www/html
+      - /usr/local/lsws
       - /etc/litespeed
     labels:
       kompose.volume.size: 5Gi
@@ -50,4 +61,51 @@ services:
       MYSQL_USER: username
       MYSQL_PASSWORD: password
       GET_HOSTS_FROM: dns
+```
+
+### docker-compose
+
+```yaml
+version: '3'
+
+services:
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_USER:     username
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    container_name: wordpress
+    image: hans00/wordpress_optimization:litespeed
+    restart: always
+    ports:
+      - "80:8088"
+      - "8443:7080"
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_USER: username
+      WORDPRESS_DB_PASSWORD: password
+    volumes:
+      - lsws_root:/usr/local/lsws
+      - web_data:/var/www/html
+    depends_on:
+      - redis
+      - mariadb
+
+  volumes:
+    lsws_root:
+    db_data:
+    web_data:
 ```

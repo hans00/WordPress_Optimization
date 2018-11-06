@@ -7,7 +7,7 @@ COPY httpd_config.conf /tmp/lsws_conf/
 COPY wordpress /tmp/lsws_conf/wordpress
 
 # install php, litespeed
-RUN yum install epel-release \
+RUN yum install -y epel-release \
 	&& rpm -ivh http://rpms.litespeedtech.com/centos/litespeed-repo-1.1-1.el7.noarch.rpm \
 	&& yum install -y curl wget procps unzip openlitespeed \
 	&& yum install -y lsphp72 lsphp72-bcmath lsphp72-common \
@@ -33,6 +33,7 @@ RUN yum install epel-release \
 # pack production files and clean trash
 	&& tar -cf /usr/src/lsws.tar --directory /usr/local/lsws . \
 	&& rm -rf /usr/local/lsws/* /tmp/lsws_conf /tmp/phpredis-*
+
 # WP & LSCache version and checksum
 ENV WORDPRESS_VERSION 4.9.8
 ENV WORDPRESS_SHA1 0945bab959cba127531dceb2c4fed81770812b4f
