@@ -20,7 +20,8 @@ RUN yum install -y epel-release \
 		lsphp72-tidy lsphp72-xml lsphp72-xmlrpc lsphp72-zip \
 # setup lsphp
 	&& ln -s /usr/local/lsws/lsphp72/lib64 /usr/local/lsws/lsphp72/lib \
-	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/bin/lsphp \
+	&& ln -sf /usr/local/lsws/lsphp72/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp \
+	&& ln -sf /usr/local/lsws/lsphp72/bin/php /usr/bin/php \
 # setup the config
 	&& mv /tmp/lsws_conf/httpd_config.conf /usr/local/lsws/conf/ \
 	&& mv /tmp/lsws_conf/wordpress /usr/local/lsws/conf/vhosts/ \
