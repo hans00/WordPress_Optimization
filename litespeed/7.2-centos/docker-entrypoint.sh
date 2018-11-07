@@ -168,7 +168,7 @@ EOPHP
 			echo "$@" | sed -e 's/[\/&]/\\&/g'
 		}
 		php_escape() {
-			local escaped="$(php -r 'var_export(('"$2"') $argv[1]);' -- "$1")"
+			local escaped="$(lsphp -r 'var_export(('"$2"') $argv[1]);' -- "$1")"
 			if [ "$2" = 'string' ] && [ "${escaped:0:1}" = "'" ]; then
 				escaped="${escaped//$'\n'/"' + \"\\n\" + '"}"
 			fi
@@ -215,7 +215,7 @@ EOPHP
 			set_config 'WP_DEBUG' 1 boolean
 		fi
 
-		TERM=dumb php -- <<'EOPHP'
+		TERM=dumb lsphp -- <<'EOPHP'
 <?php
 // database might not exist, so let's try creating it (just to be safe)
 $stderr = fopen('php://stderr', 'w');
