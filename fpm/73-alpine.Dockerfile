@@ -1,8 +1,8 @@
-FROM wordpress:php7.2-fpm-alpine
+FROM wordpress:php7.3-fpm-alpine
 
 RUN docker-php-ext-install pdo pdo_mysql
 
-ENV PHPREDIS_VERSION 4.1.1
+ENV PHPREDIS_VERSION 4.2.0
 
 RUN curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar zx \
     && mkdir -p /usr/src/php/ext \

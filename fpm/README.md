@@ -6,8 +6,10 @@ This is base on wordpress offical PHP-FPM, and add PHP-Redis support.
 
 ## Versions
 
-- `php7.2-fpm`, `php7.2` \([Dockerfile](7.2))
-- `php7.2-fpm-alpine`, `fpm-alpine` \([Dockerfile](7.2-alpine))
+- `php7.2-fpm` \([Dockerfile](72.Dockerfile))
+- `php7.2-fpm-alpine` \([Dockerfile](72-alpine.Dockerfile))
+- `php7.3-fpm`, `fpm` \([Dockerfile](73.Dockerfile))
+- `php7.3-fpm-alpine`, `fpm-alpine` \([Dockerfile](73-alpine.Dockerfile))
 
 ## How To Use
 
@@ -54,7 +56,7 @@ services:
 
   wordpress:
     container_name: wordpress
-    image: hans00/wordpress_optimization:php7.2-fpm
+    image: hans00/wordpress_optimization:fpm
     environment:
       GET_HOSTS_FROM: dns
     ports:
@@ -103,7 +105,7 @@ services:
 
   wordpress:
     container_name: wordpress
-    image: hans00/wordpress_optimization:php7.2-fpm
+    image: hans00/wordpress_optimization:fpm
     restart: always
     environment:
       WORDPRESS_DB_HOST: mariadb:3306

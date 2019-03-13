@@ -9,8 +9,10 @@ P.S. Alpine's OpenLiteSpeed is not the stable version, so I not use.
 
 ## Versions
 
-- `litespeed`, `litespeed-debian`, `php7.2-litespeed`, `php7.2-litespeed-debian` \([Dockerfile](7.2-debian))
-- `litespeed-centos`, `php7.2-litespeed-centos` \([Dockerfile](7.2-centos))
+- `php7.2-litespeed`, `php7.2-litespeed-debian` \([Dockerfile](debian/72.Dockerfile))
+- `php7.2-litespeed-centos` \([Dockerfile](centos/72.Dockerfile))
+- `litespeed`, `litespeed-debian`, `php7.3-litespeed`, `php7.3-litespeed-debian` \([Dockerfile](debian/73.Dockerfile))
+- `litespeed-centos`, `php7.3-litespeed-centos` \([Dockerfile](centos/73.Dockerfile))
 
 ## How To Use
 
